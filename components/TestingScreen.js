@@ -4,8 +4,13 @@ import { array } from 'prop-types'
 
 export default function TestingScreen({ navigation }) {
 
-    const [potentialDevices, setPotetntialDevices] = useState([])
+    const [potentialDevices, setPotetntialDevices] = useState([
+        'SMURF-123', 'PP-145', 'PP-178', 'SMURF-159'
+    ])
     const [selectedDevice, setSelectedDevice] = useState([])
+
+
+    const [connected, setConnected] = useState(false)
 
     const displayPotentialDevices = () => {
         console.log("displayPotentialDevices called")
@@ -17,22 +22,31 @@ export default function TestingScreen({ navigation }) {
         <View style={styles.container}>
 
             {/* This view is going to house the connect devivce portion of the page */}
-            <View style={styles.deviceContainer}>
-                <Text>Connect a Research Device</Text>
-                <Button
-                    title="Search for Devices"
-                    onPress={() => console.log(potentialDevices)} />
+            <View style={styles.deviceSideBar}>
+                <View style={styles.deviceContainer}>
+                    <Text style={styles.title}>Connect a Research Device</Text>
+                    <Button
+                        title="Search for Devices"
+                        onPress={() => console.log(potentialDevices)} />
 
-                <View>
-                    <Text>Available Devices</Text>
-                    {potentialDevices.map((id, index) =>
+                    <View style={styles.availableDevices}>
+                        <Text>Available Devices</Text>
+                        {potentialDevices.map((id, index) =>
+                            <Button
+                                title={id}
+                                ionPress={() => console.log('test')} />)}
+                    </View>
+                    <View style={styles.buttonSet}>
                         <Button
-                            title={id}
-                            ionPress={() => console.log('Pressed')} />)}
+                            disabled={connected}
+                            title="Connect"
+                            onPress={() => setConnected(true)} />
+                        <Button
+                            disabled={!connected}
+                            title="Disconnect"
+                            onPress={() => setConnected(false)} />
+                    </View>
                 </View>
-                <Button
-                    title="Connect Selected Device"
-                    onPress={() => console.log("Connect Device pressed")} />
             </View>
 
 
@@ -61,6 +75,9 @@ export default function TestingScreen({ navigation }) {
                         title='Reject'
                         onPress={() => console.log('Reject Result')} />
                 </View>
+                <Button
+                    title="End Testing Session"
+                    onPress={() => navigation.navigate("Home")} />
             </View>
 
             {/* <Button
@@ -71,6 +88,10 @@ export default function TestingScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    title: {
+        flex: 2,
+        paddingTop: 20
+    },
     container: {
         flex: 1,
         // backgroundColor: '#fff',
@@ -79,21 +100,31 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     buttonSet: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        flex: 2,
+        paddingTop: 40,
     },
     testOuput: {
         paddingTop: 100,
-        paddingBottom: 100
+        paddingBottom: 100,
+        flex: 3
     },
-    deviceContainer: {
-        backgroundColor: "azure",
+    deviceSideBar: {
+        backgroundColor: "#ebedeb",
         flex: 1,
         height: '100%',
         alignItems: "center",
         justifyContent: "center"
     },
+    deviceContainer: {
+        alignItems: 'center'
+    },
+    availableDevices: {
+        flex: 3,
+
+    },
     testContainer: {
-        backgroundColor: "white",
+        backgroundColor: "#fff",
         flex: 3,
         height: '100%',
         alignContent: 'center',

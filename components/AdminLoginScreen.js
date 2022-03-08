@@ -27,9 +27,6 @@ export default function AdminLoginScreen({ navigation, handleAdminChange }) {
                 title='Submit Admin Credentials'
                 onPress={() => navigation.navigate("AdminAcess")} />
 
-            <Button
-                title="Test Admin"
-                onPress={() => console.log(tmpAdminID, tmpAdminPassword)} />
 
             <Button
                 title="Back to Home Screen"

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, StyleSheet, View, Text, TextInput } from 'react-native'
 
 
-export default function HomeScreen({ navigation, handleResearcherID }) {
+export default function HomeScreen({ navigation, handleResearcherID, savedResearcherID }) {
     // ----State Varaiables----
     // Temporary Researcher ID state variables
     const [tmpResearcherID, setTmpResearcherID] = useState('')
@@ -22,6 +22,7 @@ export default function HomeScreen({ navigation, handleResearcherID }) {
                 onPress={() => handleResearcherID(tmpResearcherID)} />
 
             <Button
+                disabled={!savedResearcherID}
                 title="Go to Testing"
                 onPress={() => navigation.navigate('Testing')} />
 
