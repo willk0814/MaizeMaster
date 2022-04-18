@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { TouchableOpacity, Button, StyleSheet, View, Text, TextInput } from 'react-native'
 
 
-export default function HomeScreen({ navigation, handleResearcherID, savedResearcherID }) {
+export default function HomeScreen({ navigation, handleResearcherID, savedResearcherID, researcherID }) {
     // ----State Varaiables----
     // Temporary Researcher ID state variables
     const [tmpResearcherID, setTmpResearcherID] = useState('')
+
 
     return (
         <View style={styles.container}>

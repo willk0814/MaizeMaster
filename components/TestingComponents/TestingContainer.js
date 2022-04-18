@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { StyleSheet, Button, View, Text, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native'
 
 import TestOutputContainer from './TestOutputContainer'
-import SavingPopUp from './SavingPopUp'
+// import SavingPopUp from './SavingPopUp'
 
-export default function TestingContainer({ handleEndSessionPressed, handleDevicePopUp }) {
+export default function TestingContainer({ handleEndSessionPressed, handleDevicePopUp, handleRunTest }) {
 
     // ----State Variables----
     // Boolean state var to hold whether or not end session has been pressed
@@ -21,7 +21,7 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                     <Text style={styles.sessionInfoText}>Tim</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.sessionInfoText}>Device: </Text>
+                    <Text style={styles.sessionInfoText}>Device1: </Text>
                     <Text style={styles.sessionInfoText}>Smurf</Text>
                     <TouchableOpacity
                         onPress={handleDevicePopUp}>
@@ -29,7 +29,9 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                             <Text style={styles.sessionInfoText}>Edit </Text>
                         </View>
                     </TouchableOpacity>
+
                 </View>
+
                 <View style={styles.runControls}>
                     <Text style={styles.sessionInfoText}>Plant ID:</Text>
                     <TextInput
@@ -40,7 +42,8 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                 </View>
                 <View style={styles.runButtons}>
                     <TouchableOpacity
-                        style={styles.runButtonStyle} >
+                        style={styles.runButtonStyle}
+                        onPress={handleRunTest} >
                         <Text style={styles.runTextStyle}>Run Test</Text>
                     </TouchableOpacity>
                     <TouchableOpacity

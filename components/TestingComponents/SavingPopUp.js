@@ -1,28 +1,34 @@
 import React from 'react'
 import { Button, StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 
-export default function SavingPopUp({ handleReturnToTesting }) {
+export default function SavingPopUp({ handleReturnToTesting, endSession }) {
     return (
         <View style={styles.popupContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={styles.buttonStyle}>
                 <Text style={styles.buttonText}>Save Locally</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
                 style={styles.buttonStyle}>
-                <Text style={styles.buttonText}>Save to Files</Text>
+                <Text style={styles.buttonText}>Save to Device</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={styles.buttonStyle}>
                 <Text style={styles.buttonText}>Save to Google Drive</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
                 style={styles.buttonStyle}
                 onPress={handleReturnToTesting}>
                 <Text style={styles.buttonText}>Return to Testing</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.buttonStyle}
+                onPress={endSession}>
+                <Text style={styles.buttonText}>Test End Session</Text>
             </TouchableOpacity>
         </View>
     )

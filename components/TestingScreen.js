@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Button, StyleSheet, View, Text } from 'react-native'
 import { array } from 'prop-types'
 
@@ -8,7 +8,7 @@ import SavingPopUp from './TestingComponents/SavingPopUp'
 import DeviceConnection from './TestingComponents/DeviceConnection'
 import TestingContainer from './TestingComponents/TestingContainer'
 
-export default function TestingScreen({ navigation }) {
+export default function TestingScreen({ navigation, sessionData, handleGenerateSession, endSession, handleRunTest }) {
 
     // ----State Variables----
     // Boolean State Variables to control display of Modals
@@ -16,6 +16,19 @@ export default function TestingScreen({ navigation }) {
 
     // Boolean SV to store whether or not a device is connected => should pop-up be displayed
     const [viewDevicePopUp, setViewDevicePopUp] = useState(true)
+
+    // SV to represent current test data
+    const [currentTest, setCurrentTest] = useState()
+
+    // SV to represent whether or not the first test was run -- session has begun
+    const [runFirstTest, setRunFirstTest] = useState(false)
+
+
+
+
+
+
+
 
     // ----Necessary Functions----
     // Handle return to testing
@@ -35,9 +48,16 @@ export default function TestingScreen({ navigation }) {
 
     const toggleDevicePopUpOff = () => {
         setViewDevicePopUp(false)
+        handleGenerateSession()
+
     }
 
-    // handle 
+    // handle end session to test creating a new session
+    const testEndSession = () => {
+        setRunFirstTest(false)
+        setTotalTests(0)
+        setSavedTests(0)
+    }
 
     return (
         <View style={styles.pageContainer}>
@@ -55,7 +75,8 @@ export default function TestingScreen({ navigation }) {
             <View style={styles.testContainer}>
                 <TestingContainer
                     handleEndSessionPressed={handleEndSessionPressed}
-                    handleDevicePopUp={toggleDevicePopUpOn} />
+                    handleDevicePopUp={toggleDevicePopUpOn}
+                    handleRunTest={handleRunTest} />
             </View>
 
             <Modal
@@ -63,7 +84,9 @@ export default function TestingScreen({ navigation }) {
                 transparent={true}
                 animationType="slide" >
                 <View style={styles.centeredView}>
-                    <SavingPopUp handleReturnToTesting={handleReturnToTesting} />
+                    <SavingPopUp
+                        handleReturnToTesting={handleReturnToTesting}
+                        endSession={endSession} />
                 </View>
             </Modal>
         </View>
