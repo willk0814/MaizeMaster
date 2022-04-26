@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-nativ
 import TestOutputContainer from './TestOutputContainer'
 // import SavingPopUp from './SavingPopUp'
 
-export default function TestingContainer({ handleEndSessionPressed, handleDevicePopUp, handleRunTest }) {
+export default function TestingContainer({ handleEndSessionPressed, handleDevicePopUp, handleRunTest, currentTestData, handleAcceptResult, handleRejectResult }) {
 
     // ----State Variables----
     // Boolean state var to hold whether or not end session has been pressed
@@ -16,10 +16,6 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
 
             <View style={styles.upperMargin}>
                 <Text style={styles.title}>Session Info and Testing Controls</Text>
-                <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.sessionInfoText}>Researcher: </Text>
-                    <Text style={styles.sessionInfoText}>Tim</Text>
-                </View>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.sessionInfoText}>Device1: </Text>
                     <Text style={styles.sessionInfoText}>Smurf</Text>
@@ -47,11 +43,13 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                         <Text style={styles.runTextStyle}>Run Test</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.runButtonStyle}>
+                        style={styles.runButtonStyle}
+                        onPress={handleAcceptResult}>
                         <Text style={styles.runTextStyle}>Accept Result</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.runButtonStyle}>
+                        style={styles.runButtonStyle}
+                        onPress={handleRejectResult}>
                         <Text style={styles.runTextStyle}>Reject Result</Text>
                     </TouchableOpacity>
                 </View>
@@ -60,7 +58,7 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
 
             <View style={styles.testOuput}>
                 <Text style={styles.title}>Test Output</Text>
-                <TestOutputContainer />
+                <TestOutputContainer currentTestData={currentTestData} />
             </View>
 
             <View style={styles.centeredView}>
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
         // alignContent: 'center',
         // justifyContent: 'center',
         // alignItems: 'center',
-        paddingTop: 20,
+        paddingTop: 40,
     },
     title: {
         fontSize: 40,

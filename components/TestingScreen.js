@@ -8,7 +8,7 @@ import SavingPopUp from './TestingComponents/SavingPopUp'
 import DeviceConnection from './TestingComponents/DeviceConnection'
 import TestingContainer from './TestingComponents/TestingContainer'
 
-export default function TestingScreen({ navigation, sessionData, handleGenerateSession, endSession, handleRunTest }) {
+export default function TestingScreen({ navigation, handleRunTest, currentTestData, handleAcceptResult, handleRejectResult }) {
 
     // ----State Variables----
     // Boolean State Variables to control display of Modals
@@ -22,11 +22,6 @@ export default function TestingScreen({ navigation, sessionData, handleGenerateS
 
     // SV to represent whether or not the first test was run -- session has begun
     const [runFirstTest, setRunFirstTest] = useState(false)
-
-
-
-
-
 
 
 
@@ -48,16 +43,15 @@ export default function TestingScreen({ navigation, sessionData, handleGenerateS
 
     const toggleDevicePopUpOff = () => {
         setViewDevicePopUp(false)
-        handleGenerateSession()
 
     }
 
-    // handle end session to test creating a new session
-    const testEndSession = () => {
-        setRunFirstTest(false)
-        setTotalTests(0)
-        setSavedTests(0)
-    }
+    // // handle end session to test creating a new session
+    // const testEndSession = () => {
+    //     setRunFirstTest(false)
+    //     setTotalTests(0)
+    //     setSavedTests(0)
+    // }
 
     return (
         <View style={styles.pageContainer}>
@@ -76,7 +70,11 @@ export default function TestingScreen({ navigation, sessionData, handleGenerateS
                 <TestingContainer
                     handleEndSessionPressed={handleEndSessionPressed}
                     handleDevicePopUp={toggleDevicePopUpOn}
-                    handleRunTest={handleRunTest} />
+                    handleRunTest={handleRunTest}
+                    currentTestData={currentTestData}
+                    handleAcceptResult={handleAcceptResult}
+                    handleRejectResult={handleRejectResult}
+                />
             </View>
 
             <Modal
@@ -85,8 +83,7 @@ export default function TestingScreen({ navigation, sessionData, handleGenerateS
                 animationType="slide" >
                 <View style={styles.centeredView}>
                     <SavingPopUp
-                        handleReturnToTesting={handleReturnToTesting}
-                        endSession={endSession} />
+                        handleReturnToTesting={handleReturnToTesting} />
                 </View>
             </Modal>
         </View>

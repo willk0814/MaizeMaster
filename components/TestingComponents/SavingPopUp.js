@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 
-export default function SavingPopUp({ handleReturnToTesting, endSession }) {
+export default function SavingPopUp({ handleReturnToTesting }) {
     return (
         <View style={styles.popupContainer}>
             {/* <TouchableOpacity
@@ -27,7 +27,7 @@ export default function SavingPopUp({ handleReturnToTesting, endSession }) {
 
             <TouchableOpacity
                 style={styles.buttonStyle}
-                onPress={endSession}>
+                onPress={() => console.log('end session pressed')}>
                 <Text style={styles.buttonText}>Test End Session</Text>
             </TouchableOpacity>
         </View>

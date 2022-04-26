@@ -64,16 +64,17 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: '#cddddd',
-        fontWeight: '900',
-        fontSize: 20,
+        fontWeight: '700',
+        fontSize: 30,
         textAlign: 'center'
     },
     inputStyle: {
         backgroundColor: '#cddddd',
-        padding: 10,
+        padding: 15,
         width: 400,
         marginBottom: 20,
         textAlign: 'center',
-        color: '#315a2a'
+        color: '#315a2a',
+        fontSize: 30
     }
 });
