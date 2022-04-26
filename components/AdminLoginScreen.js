@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, FlatList } from 'react-native'
 
-export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage }) {
+export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs }) {
     //----State Variables----
     // Temporary Admin Credentials
     const [tmpAdminID, setTmpAdminID] = useState('')
     const [tmpAdminPassword, setTmpAdminPassword] = useState('')
+
+    console.log(availableLogs.length)
+    console.log(availableLogs)
+
+
+    const renderItem = ({ item }) => {
+        return (
+            <Text key={item} style={styles.title}>{item}</Text>
+        );
+    };
 
     return (
         <View style={styles.pageContainer}>
@@ -26,7 +36,21 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
 
             </View>
 
-            <TextInput
+
+
+            <View style={styles.listView}>
+
+                <FlatList
+                    data={availableLogs}
+                    render={renderItem}
+                    keyExtractor={item => item}
+                    style={styles.listStyle} />
+
+            </View>
+
+
+
+            {/* <TextInput
                 style={{ padding: 30 }}
                 placeholder='Admin ID'
                 onChangeText={value => setTmpAdminID(value)}
@@ -45,8 +69,8 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
 
             <Button
                 title="Back to Home Screen"
-                onPress={() => navigation.navigate("Home")} />
-        </View>
+                onPress={() => navigation.navigate("Home")} /> */}
+        </View >
     )
 }
 
@@ -67,7 +91,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#315a2a',
         padding: 20,
         width: 300,
-        marginTop: 25
+        margin: 25,
+
     },
     buttonText: {
         color: '#CDDDDD',
@@ -77,6 +102,13 @@ const styles = StyleSheet.create({
     },
     centeredView: {
         alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    listView: {
+        flexDirection: 'column',
+        alignContent: "center",
         alignItems: 'center',
         justifyContent: 'center'
     }

@@ -32,7 +32,7 @@ export default function AdminAccess() {
             title: "BC C12_Plant06",
         },
     ];
-    
+
     const [selectedId, setSelectedId] = useState(null);
 
     const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -40,11 +40,11 @@ export default function AdminAccess() {
             <Text style={[styles.title, textColor]}>{item.title}</Text>
         </TouchableOpacity>
     );
-    
+
     const renderItem = ({ item }) => {
         const backgroundColor = item.id === selectedId ? "#05611d" : "#99ffb4";
         const color = item.id === selectedId ? 'white' : 'black';
-    
+
         return (
             <Item
                 item={item}
@@ -57,7 +57,7 @@ export default function AdminAccess() {
 
     return (
         <View style={styles.container}>
-            <Text style ={styles.title}>View your session data</Text>
+            <Text style={styles.title}>View your session data</Text>
             <View style={styles.list}>
                 <FlatList
                     data={DATA}

@@ -53,7 +53,7 @@ export default function App({ navigation }) {
 
 
   // SV to hold available sessions
-  const [availableSessions, setAvailableSessions] = useState('')
+  const [availableSessions, setAvailableSessions] = useState([])
 
   // Structure of async storage
   // 1. Some general keyword will search for all available sessions
@@ -95,15 +95,18 @@ export default function App({ navigation }) {
   // Handling search for records
   const handleSearchForRecords = async () => {
     let tmpArray = []
+    let availableSessions = null
     try {
-      const availableSessions = await AsyncStorage.getItem('sessions')
-      tmpArray = availableSessions.replace('\/\g', '').split('$$$')
+      availableSessions = JSON.parse(await AsyncStorage.getItem('sessions')).split('$$$')
+      // tmpArray = availableSessions.replace('\/\g', '').split('$$$')
       // console.log(availableSessions)
     } catch (err) {
       console.log(err)
     }
-    console.log(tmpArray)
+    // console.log(availableSessions)
+    setAvailableSessions(availableSessions)
   }
+
 
   // const handleStoreSession = async () => {
   //   let currentStoredSessions = ''
@@ -168,33 +171,22 @@ export default function App({ navigation }) {
 
   const handleAcceptResult = async () => {
     let key = handleGenerateTestKey()
-    let currentSessions = ''
+    let currentSessions = null
     try {
-      currentSessions = await AsyncStorage.getItem('sessions')
-      // console.log('Current Sessions')
-      // console.log(currentSessions)
+      currentSessions = JSON.parse(await AsyncStorage.getItem('sessions'))
     } catch (err) {
       console.log(err)
     }
-    // console.log('New Key')
-    // console.log(key)
-
+    // console.log(currentSessions)
     if (currentSessions == null) {
       currentSessions = key
     } else {
-      currentSessions += key
+
+      currentSessions += '$$$' + key
     }
-
     let tmp = JSON.stringify(currentSessions)
-    let str = tmp.replace(/\\/g, '')
-
-    // console.log(currentSessions)
-
-
-
-    storeData('sessions', str)
-
-
+    console.log(tmp)
+    storeData('sessions', tmp)
     storeData(key, JSON.stringify(currentTestData))
     setCurrentTestData([[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]])
   }
@@ -206,7 +198,7 @@ export default function App({ navigation }) {
     let device = deviceID
     let researcher = researcherID
 
-    tmpKey = 'Date: ' + dateVal + ', Device: ' + device + ', Researcher: ' + researcher + '$$$'
+    tmpKey = 'Date: ' + dateVal + ', Device: ' + device + ', Researcher: ' + researcher
 
     return tmpKey
   }
@@ -285,7 +277,8 @@ export default function App({ navigation }) {
           {props => <AdminLoginScreen {...props}
             handleAdminChange={handleAdminCredentials}
             handleSearchForRecords={handleSearchForRecords}
-            emptyStorage={handleEmptyStorage} />}
+            emptyStorage={handleEmptyStorage}
+            availableLogs={availableSessions} />}
         </Stack.Screen>
         <Stack.Screen name="AdminAcess" component={AdminAccess} />
       </Stack.Navigator>
