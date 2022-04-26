@@ -55,19 +55,6 @@ export default function App({ navigation }) {
   // SV to hold available sessions
   const [availableSessions, setAvailableSessions] = useState([])
 
-  // Structure of async storage
-  // 1. Some general keyword will search for all available sessions
-
-  // 2. These session ids will be stored in array 
-
-  // 3. Each of these session ids will function as a keyword for a set of test keys
-
-  // 4. Each set of test keys will be stored in array
-
-  // 5. Each test key will yield an array representing that tests data
-
-
-  // The above architecture requires that 
 
 
   // Async Store Data Function - JSON object
@@ -79,18 +66,6 @@ export default function App({ navigation }) {
     }
   }
 
-  // const getData = async (storage_Key) => {
-  //   try {
-  //     const value = await AsyncStorage.getItem(storage_Key)
-  //     if (value != null) {
-  //       // console.log('From getData:')
-  //       // console.log(value)
-  //       return value
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
 
   // Handling search for records
   const handleSearchForRecords = async () => {
@@ -107,30 +82,13 @@ export default function App({ navigation }) {
     setAvailableSessions(availableSessions)
   }
 
+  // HandleSearchForTest
+  const HandleSearchForTest = async (key) => {
+    let tmpSessionData = await AsyncStorage.getItem(key)
 
-  // const handleStoreSession = async () => {
-  //   let currentStoredSessions = ''
-  //   try {
-  //     // const jsonValue = await AsyncStorage.getItem('@storage_Key')
-  //     currentStoredSessions = await AsyncStorage.getItem('sessions')
-  //     // console.log(currentStoredSessions)
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  //   if (currentStoredSessions == null) {
-  //     currentStoredSessions = sessionData
-  //   } else {
-  //     console.log(sessionData)
-  //     currentStoredSessions += JSON.stringify(sessionData)
-  //   }
+    console.log(tmpSessionData)
 
-  //   try {
-  //     await AsyncStorage.setItem('sessions', ' ')
-
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  // }
+  }
 
 
   // Handle Input Researcher ID
@@ -278,7 +236,8 @@ export default function App({ navigation }) {
             handleAdminChange={handleAdminCredentials}
             handleSearchForRecords={handleSearchForRecords}
             emptyStorage={handleEmptyStorage}
-            availableLogs={availableSessions} />}
+            availableLogs={availableSessions}
+            handleSearchForData={HandleSearchForTest} />}
         </Stack.Screen>
         <Stack.Screen name="AdminAcess" component={AdminAccess} />
       </Stack.Navigator>

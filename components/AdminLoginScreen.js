@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, FlatList } from 'react-native'
 
-export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs }) {
+import AvailableSessions from './AvailableSessions.js'
+
+export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs, handleSearchForData }) {
     //----State Variables----
     // Temporary Admin Credentials
     const [tmpAdminID, setTmpAdminID] = useState('')
     const [tmpAdminPassword, setTmpAdminPassword] = useState('')
 
-    console.log(availableLogs.length)
-    console.log(availableLogs)
+    // console.log(availableLogs.length)
+    // console.log(availableLogs)
 
 
     const renderItem = ({ item }) => {
@@ -40,11 +42,13 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
 
             <View style={styles.listView}>
 
-                <FlatList
+                {/* <FlatList
                     data={availableLogs}
                     render={renderItem}
                     keyExtractor={item => item}
-                    style={styles.listStyle} />
+                    style={styles.listStyle} /> */}
+
+                {availableLogs.map((key) => <AvailableSessions text={key} handleSearchForData={handleSearchForData} />)}
 
             </View>
 
@@ -106,10 +110,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row'
     },
-    listView: {
-        flexDirection: 'column',
-        alignContent: "center",
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
+    // listView: {
+    //     flexDirection: 'column',
+    //     alignContent: "center",
+    //     alignItems: 'center',
+    //     justifyContent: 'center'
+    // }
 });
