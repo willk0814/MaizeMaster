@@ -1,16 +1,26 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, FlatList } from 'react-native'
 
-import AvailableSessions from './AvailableSessions.js'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs, handleSearchForData }) {
+import AvailableSessions from './AvailableSessions.js'
+import { __values } from 'tslib'
+
+export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs, availableSessionsData, dataDict }) {
     //----State Variables----
     // Temporary Admin Credentials
     const [tmpAdminID, setTmpAdminID] = useState('')
     const [tmpAdminPassword, setTmpAdminPassword] = useState('')
 
+    const [tmpTest, setTmpTest] = useState([])
+
     // console.log(availableLogs.length)
     // console.log(availableLogs)
+
+    const returnTestData = async (key) => {
+        let testData = JSON.parse(await AsyncStorage.getItem(key))
+        setTmpTest(testData)
+    }
 
 
     const renderItem = ({ item }) => {
@@ -48,7 +58,9 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
                     keyExtractor={item => item}
                     style={styles.listStyle} /> */}
 
-                {availableLogs.map((key) => <AvailableSessions text={key} handleSearchForData={handleSearchForData} />)}
+                {/* {availableLogs.map((key, index) => <AvailableSessions text={key} testData={availableSessionsData[index]} />)} */}
+
+                {Object.entries(dataDict).map(([key, value]) => <AvailableSessions keyVal={key} testData={value} />)}
 
             </View>
 
@@ -74,6 +86,17 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
             <Button
                 title="Back to Home Screen"
                 onPress={() => navigation.navigate("Home")} /> */}
+
+
+            <View>
+                <TouchableOpacity
+                    style={styles.searchButtonStyle}
+                    onPress={() => console.log('Pressed')}>
+                    <Text style={styles.buttonText}> Save All </Text>
+                </TouchableOpacity>
+            </View>
+
+
         </View >
     )
 }

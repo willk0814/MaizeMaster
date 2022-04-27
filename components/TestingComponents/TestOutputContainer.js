@@ -18,6 +18,10 @@ export default function TestOutputContainer({ currentTestData }) {
         yData[i] = currentTestData[i][1]
     }
 
+    // console.log('From Test Output Container')
+    // console.log('Prop Data: ', currentTestData)
+    console.log('Y data: ', yData)
+
 
 
     const data = {

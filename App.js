@@ -32,13 +32,6 @@ export default function App({ navigation }) {
   const [savedResearcherID, setSavedResearcherID] = useState(false)
 
 
-  // Testing Session Data SV 
-  // const [sessionData, setSessionData] = useState({
-  //   researcher: '',
-  //   time: '',
-  //   device: ''
-  // })
-
   // Single Test SV
   const [currentTestData, setCurrentTestData] = useState([[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]])
 
@@ -55,6 +48,12 @@ export default function App({ navigation }) {
   // SV to hold available sessions
   const [availableSessions, setAvailableSessions] = useState([])
 
+  // SV to hold available sessions data
+  const [availableSessionsData, setAvailableSessionsData] = useState([[]])
+
+  // SV to hold both above in a dictionary
+  const [dataDict, setDataDict] = useState({})
+
 
 
   // Async Store Data Function - JSON object
@@ -68,26 +67,49 @@ export default function App({ navigation }) {
 
 
   // Handling search for records
+  // This function should return 2 arrays, one of the keys, and one of the data
   const handleSearchForRecords = async () => {
     let tmpArray = []
-    let availableSessions = null
+    let tmpAvailableSessions = null
     try {
-      availableSessions = JSON.parse(await AsyncStorage.getItem('sessions')).split('$$$')
+      tmpAvailableSessions = JSON.parse(await AsyncStorage.getItem('sessions')).split('$$$')
       // tmpArray = availableSessions.replace('\/\g', '').split('$$$')
       // console.log(availableSessions)
     } catch (err) {
       console.log(err)
     }
     // console.log(availableSessions)
-    setAvailableSessions(availableSessions)
-  }
+    setAvailableSessions(tmpAvailableSessions)
 
-  // HandleSearchForTest
-  const HandleSearchForTest = async (key) => {
-    let tmpSessionData = await AsyncStorage.getItem(key)
+    let tmpDict = {}
 
-    console.log(tmpSessionData)
+    for (let i = 0; i < availableSessions.length; i++) {
+      // search each key for the corresponding record
+      let tmpSessionData = JSON.parse(await AsyncStorage.getItem(availableSessions[i]))
 
+      // console.log(tmpSessionData)
+
+      // let tmpYData = []
+      // for (let i = 0; i < tmpSessionData.length; i++) {
+      //   tmpYData[i] = tmpSessionData[i][1]
+      // }
+
+      // // only hits on the first pass
+      // if (availableSessionsData == null) {
+      //   setAvailableSessionsData(tmpSessionData)
+
+      // } else {
+      //   let tmpAvailableSessionsData = availableSessionsData
+      //   tmpAvailableSessionsData.push(tmpSessionData)
+      //   setAvailableSessionsData(tmpAvailableSessionsData)
+      // }
+      // add each element to the data dict
+      tmpDict[availableSessions[i]] = tmpSessionData
+
+    }
+
+    // console.log(tmpDict)
+    setDataDict(tmpDict)
   }
 
 
@@ -112,15 +134,10 @@ export default function App({ navigation }) {
 
   // Running Test - sets current Test Data 
   const handleRunTest = () => {
-    // if (sessionStarted == false) {
-    //   setSessionStarted(true)
-    //   console.log('Generating and storing session Data')
-    //   handleGenerateSession()
-    // }
     var tmpData = new Array();
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 9; i++) {
       let x = i;
-      let y = Math.random();
+      let y = Math.floor(Math.random() * 10);
       tmpData.push([x, y]);
     }
     setCurrentTestData(tmpData)
@@ -143,7 +160,7 @@ export default function App({ navigation }) {
       currentSessions += '$$$' + key
     }
     let tmp = JSON.stringify(currentSessions)
-    console.log(tmp)
+    // console.log(tmp)
     storeData('sessions', tmp)
     storeData(key, JSON.stringify(currentTestData))
     setCurrentTestData([[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]])
@@ -168,16 +185,6 @@ export default function App({ navigation }) {
   }
 
 
-  // const endSession = () => {
-  //   console.log('end session called')
-  //   // setSessionData({
-  //   //   researcher: '',
-  //   //   time: '',
-  //   //   device: ''
-  //   // })
-  //   setSessionStarted(false)
-
-  // }
 
   const generateTime = () => {
     // create the date value
@@ -191,21 +198,6 @@ export default function App({ navigation }) {
     return dateVal
   }
 
-
-
-  // const handleGenerateSession = () => {
-  //   let dateVal = generateTime()
-
-
-  //   // set the session data SV & print to test
-  //   setSessionData({
-  //     researcher: researcherID,
-  //     time: dateVal,
-  //     device: deviceID
-
-  //   })
-
-  // }
 
   const handleEmptyStorage = async () => {
     await AsyncStorage.removeItem('sessions')
@@ -237,7 +229,8 @@ export default function App({ navigation }) {
             handleSearchForRecords={handleSearchForRecords}
             emptyStorage={handleEmptyStorage}
             availableLogs={availableSessions}
-            handleSearchForData={HandleSearchForTest} />}
+            availableSessionsData={availableSessionsData}
+            dataDict={dataDict} />}
         </Stack.Screen>
         <Stack.Screen name="AdminAcess" component={AdminAccess} />
       </Stack.Navigator>
