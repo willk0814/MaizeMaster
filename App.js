@@ -83,9 +83,9 @@ export default function App({ navigation }) {
 
     let tmpDict = {}
 
-    for (let i = 0; i < availableSessions.length; i++) {
+    for (let i = 0; i < tmpAvailableSessions.length; i++) {
       // search each key for the corresponding record
-      let tmpSessionData = JSON.parse(await AsyncStorage.getItem(availableSessions[i]))
+      let tmpSessionData = JSON.parse(await AsyncStorage.getItem(tmpAvailableSessions[i]))
 
       // console.log(tmpSessionData)
 
@@ -93,18 +93,7 @@ export default function App({ navigation }) {
       for (let i = 0; i < tmpSessionData.length; i++) {
         tmpYData[i] = tmpSessionData[i][1]
       }
-
-      // // only hits on the first pass
-      // if (availableSessionsData == null) {
-      //   setAvailableSessionsData(tmpSessionData)
-
-      // } else {
-      //   let tmpAvailableSessionsData = availableSessionsData
-      //   tmpAvailableSessionsData.push(tmpSessionData)
-      //   setAvailableSessionsData(tmpAvailableSessionsData)
-      // }
-      // add each element to the data dict
-      tmpDict[availableSessions[i]] = tmpYData
+      tmpDict[tmpAvailableSessions[i]] = tmpYData
 
     }
 
