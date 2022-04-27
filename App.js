@@ -69,7 +69,7 @@ export default function App({ navigation }) {
   // Handling search for records
   // This function should return 2 arrays, one of the keys, and one of the data
   const handleSearchForRecords = async () => {
-    let tmpArray = []
+    // let tmpArray = []
     let tmpAvailableSessions = null
     try {
       tmpAvailableSessions = JSON.parse(await AsyncStorage.getItem('sessions')).split('$$$')
@@ -89,10 +89,10 @@ export default function App({ navigation }) {
 
       // console.log(tmpSessionData)
 
-      // let tmpYData = []
-      // for (let i = 0; i < tmpSessionData.length; i++) {
-      //   tmpYData[i] = tmpSessionData[i][1]
-      // }
+      let tmpYData = []
+      for (let i = 0; i < tmpSessionData.length; i++) {
+        tmpYData[i] = tmpSessionData[i][1]
+      }
 
       // // only hits on the first pass
       // if (availableSessionsData == null) {
@@ -104,7 +104,7 @@ export default function App({ navigation }) {
       //   setAvailableSessionsData(tmpAvailableSessionsData)
       // }
       // add each element to the data dict
-      tmpDict[availableSessions[i]] = tmpSessionData
+      tmpDict[availableSessions[i]] = tmpYData
 
     }
 

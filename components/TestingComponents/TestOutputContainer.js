@@ -20,7 +20,7 @@ export default function TestOutputContainer({ currentTestData }) {
 
     // console.log('From Test Output Container')
     // console.log('Prop Data: ', currentTestData)
-    console.log('Y data: ', yData)
+    // console.log('Y data: ', yData)
 
 
 

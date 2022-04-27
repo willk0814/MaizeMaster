@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, FlatList, ScrollView } from 'react-native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -50,19 +50,14 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
 
 
 
-            <View style={styles.listView}>
-
-                {/* <FlatList
-                    data={availableLogs}
-                    render={renderItem}
-                    keyExtractor={item => item}
-                    style={styles.listStyle} /> */}
-
-                {/* {availableLogs.map((key, index) => <AvailableSessions text={key} testData={availableSessionsData[index]} />)} */}
+            <ScrollView
+                style={styles.listView}
+                horizontal={false}
+                showsVerticalScrollIndicator={true}>
 
                 {Object.entries(dataDict).map(([key, value]) => <AvailableSessions keyVal={key} testData={value} />)}
 
-            </View>
+            </ScrollView>
 
 
 
