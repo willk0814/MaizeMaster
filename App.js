@@ -44,6 +44,9 @@ export default function App({ navigation }) {
   const [deviceType, setDeviceType] = useState('')
   const [deviceID, setDeviceID] = useState('')
 
+  // SV to hold current plant ID
+  const [plantID, setPlantID] = useState()
+
 
   // SV to hold available sessions
   const [availableSessions, setAvailableSessions] = useState([])
@@ -130,8 +133,14 @@ export default function App({ navigation }) {
       tmpData.push([x, y]);
     }
     setCurrentTestData(tmpData)
-
   }
+
+
+  // Handle Plant ID
+  const handlePlantID = (e) => {
+    setPlantID(e)
+  }
+
 
   const handleAcceptResult = async () => {
     let key = handleGenerateTestKey()
@@ -159,10 +168,11 @@ export default function App({ navigation }) {
   const handleGenerateTestKey = () => {
     let tmpKey = ''
     let dateVal = generateTime()
+    let plant = plantID
     let device = deviceID
     let researcher = researcherID
 
-    tmpKey = 'Date: ' + dateVal + ', Device: ' + device + ', Researcher: ' + researcher
+    tmpKey = 'Plant: ' + plant + ', Date: ' + dateVal + ', Device: ' + device + ', Researcher: ' + researcher
 
     return tmpKey
   }
@@ -210,7 +220,8 @@ export default function App({ navigation }) {
             handleRunTest={handleRunTest}
             currentTestData={currentTestData}
             handleAcceptResult={handleAcceptResult}
-            handleRejectResult={handleRejectResult} />}
+            handleRejectResult={handleRejectResult}
+            handlePlantID={handlePlantID} />}
         </Stack.Screen>
         <Stack.Screen name="Admin">
           {props => <AdminLoginScreen {...props}

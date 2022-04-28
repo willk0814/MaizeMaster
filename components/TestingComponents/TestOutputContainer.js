@@ -29,7 +29,7 @@ export default function TestOutputContainer({ currentTestData }) {
         datasets: [
             {
                 data: yData,
-                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // optional
                 strokeWidth: 2 // optional
             },
             // Control line
@@ -43,11 +43,11 @@ export default function TestOutputContainer({ currentTestData }) {
     };
 
     const chartConfig = {
-        backgroundGradientFrom: "#1E2923",
-        backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: "#08130D",
-        backgroundGradientToOpacity: 0.5,
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        backgroundGradientFrom: "#2E2F2F",
+        backgroundGradientFromOpacity: 1,
+        backgroundGradientTo: "#2E2F2F",
+        backgroundGradientToOpacity: 1,
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         strokeWidth: 2, // optional, default 3
         barPercentage: 0.5,
         useShadowColorFromDataset: false // optional

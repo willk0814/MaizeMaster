@@ -4,11 +4,13 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-nativ
 import TestOutputContainer from './TestOutputContainer'
 // import SavingPopUp from './SavingPopUp'
 
-export default function TestingContainer({ handleEndSessionPressed, handleDevicePopUp, handleRunTest, currentTestData, handleAcceptResult, handleRejectResult }) {
+export default function TestingContainer({ handleEndSessionPressed, handleDevicePopUp, handleRunTest, currentTestData, handleAcceptResult, handleRejectResult, handlePlantID }) {
 
     // ----State Variables----
     // Boolean state var to hold whether or not end session has been pressed
     const [endSessionPressed, setEndSessionPressed] = useState(false)
+
+    const [tmpPlantID, setPlantID] = useState()
 
 
     return (
@@ -34,6 +36,7 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                         style={styles.plantIDStyle}
                         placeholder="Enter Plant ID"
                         placeholderTextColor="#315a2a"
+                        onChange={(value) => handlePlantID(value)}
                     />
                 </View>
                 <View style={styles.runButtons}>

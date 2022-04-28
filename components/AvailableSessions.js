@@ -31,7 +31,7 @@ export default function AvailableSessions({ keyVal, testData }) {
         datasets: [
             {
                 data: yData,
-                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`, // optional
                 strokeWidth: 2 // optionalor
             }
         ],
@@ -39,15 +39,16 @@ export default function AvailableSessions({ keyVal, testData }) {
     };
 
     const chartConfig = {
-        backgroundGradientFrom: "#1E2923",
-        backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: "#08130D",
-        backgroundGradientToOpacity: 0.5,
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        backgroundGradientFrom: "#2E2F2F",
+        backgroundGradientFromOpacity: 1,
+        backgroundGradientTo: "#2E2F2F",
+        backgroundGradientToOpacity: 1,
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         strokeWidth: 2, // optional, default 3
         barPercentage: 0.5,
         useShadowColorFromDataset: false // optional
     };
+
 
     const handlePress = async () => {
         if (showGraph) {
@@ -87,8 +88,9 @@ export default function AvailableSessions({ keyVal, testData }) {
 const styles = StyleSheet.create({
     sessionContainer: {
         backgroundColor: '#CDDDDD',
-        paddingVertical: 15,
-        marginVertical: 5,
+        // paddingVertical: 15,
+
+        marginVertical: 10,
         alignItems: "center",
         width: screenWidth
         // flex: 1
@@ -96,7 +98,8 @@ const styles = StyleSheet.create({
     sessionText: {
         fontSize: 20,
         color: '#2E2F2F',
-        fontWeight: '600'
+        fontWeight: '600',
+        paddingVertical: 15
     },
     // graphView: {
     //     flex: 1,

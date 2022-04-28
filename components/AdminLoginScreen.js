@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, FlatList, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, FlatList, ScrollView, Modal, Touchable } from 'react-native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -11,6 +11,9 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
     // Temporary Admin Credentials
     const [tmpAdminID, setTmpAdminID] = useState('')
     const [tmpAdminPassword, setTmpAdminPassword] = useState('')
+
+
+    const [displayConfirmClearModal, setDisplayConfirmClearModal] = useState(false)
 
     const [tmpTest, setTmpTest] = useState([])
 
@@ -29,6 +32,16 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
         );
     };
 
+
+    // toggle confirm pop-up
+    const toggleDeletePopUpOn = () => {
+        setDisplayConfirmClearModal(true)
+    }
+
+    const toggleDeletePopUpOff = () => {
+        setDisplayConfirmClearModal(false)
+    }
+
     return (
         <View style={styles.pageContainer}>
             <Text style={styles.title}>Locally Stored Data</Text>
@@ -42,7 +55,7 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
 
                 <TouchableOpacity
                     style={styles.searchButtonStyle}
-                    onPress={emptyStorage}>
+                    onPress={toggleDeletePopUpOn}>
                     <Text style={styles.buttonText}>Clear Storage</Text>
                 </TouchableOpacity>
 
@@ -90,6 +103,28 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
                     <Text style={styles.buttonText}> Save All </Text>
                 </TouchableOpacity>
             </View>
+            <View style={styles.modalView}>
+                <Modal
+                    visible={displayConfirmClearModal}
+                    animationType='slide'
+                    transparent={true}>
+                    <View style={styles.modalView}>
+                        <View style={styles.clearStoragePopUp}>
+                            <TouchableOpacity
+                                style={styles.searchButtonStyle}
+                                onPress={emptyStorage}>
+                                <Text style={styles.buttonText}>Confirm Delete</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.searchButtonStyle}
+                                onPress={toggleDeletePopUpOff}>
+                                <Text style={styles.buttonText}>Cancel Delete</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
 
 
         </View >
@@ -128,6 +163,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row'
     },
+    modalView: {
+        flex: 1,
+        paddingHorizontal: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: '#2E2F2F' 
+    },
+    clearStoragePopUp: {
+        backgroundColor: 'black'
+    }
     // listView: {
     //     flexDirection: 'column',
     //     alignContent: "center",
