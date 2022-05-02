@@ -1,12 +1,10 @@
 // React Native Imports
 import React, { useState, useEffect } from 'react'
-import { StatusBar, setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 // React Navigate modules
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
 
 // Created Components
 import HomeScreen from './components/HomeScreen';
@@ -17,7 +15,6 @@ import AdminAccess from './components/AdminAccess';
 
 // Async Storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { generate } from 'fast-glob/out/managers/tasks';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +53,9 @@ export default function App({ navigation }) {
 
   // SV to hold both above in a dictionary
   const [dataDict, setDataDict] = useState({})
+
+  // Boolean SV to toggle display of confirm delete Modal
+  const [displayConfirmClearModal, setDisplayConfirmClearModal] = useState(false)
 
 
 
@@ -126,6 +126,7 @@ export default function App({ navigation }) {
 
   // Running Test - sets current Test Data 
   const handleRunTest = () => {
+    console.log(plantID)
     var tmpData = new Array();
     for (let i = 0; i < 9; i++) {
       let x = i;
@@ -137,8 +138,8 @@ export default function App({ navigation }) {
 
 
   // Handle Plant ID
-  const handlePlantID = (e) => {
-    setPlantID(e)
+  const handlePlantID = () => {
+    console.log('called')
   }
 
 
@@ -198,8 +199,18 @@ export default function App({ navigation }) {
   }
 
 
+  // Functions to handle the clear storage button
   const handleEmptyStorage = async () => {
+    setDisplayConfirmClearModal(false)
     await AsyncStorage.removeItem('sessions')
+  }
+
+  const toggleConfirmClearModalOff = () => {
+    setDisplayConfirmClearModal(false)
+  }
+
+  const toggleConfirmClearModalOn = () => {
+    setDisplayConfirmClearModal(true)
   }
 
 
@@ -230,7 +241,10 @@ export default function App({ navigation }) {
             emptyStorage={handleEmptyStorage}
             availableLogs={availableSessions}
             availableSessionsData={availableSessionsData}
-            dataDict={dataDict} />}
+            dataDict={dataDict}
+            displayConfirmClearModal={displayConfirmClearModal}
+            toggleConfirmClearModalOff={toggleConfirmClearModalOff}
+            toggleConfirmClearModalOn={toggleConfirmClearModalOn} />}
         </Stack.Screen>
         <Stack.Screen name="AdminAcess" component={AdminAccess} />
       </Stack.Navigator>

@@ -36,7 +36,7 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                         style={styles.plantIDStyle}
                         placeholder="Enter Plant ID"
                         placeholderTextColor="#315a2a"
-                        onChange={(value) => handlePlantID(value)}
+                        onChange={handlePlantID}
                     />
                 </View>
                 <View style={styles.runButtons}>

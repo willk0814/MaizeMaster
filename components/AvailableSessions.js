@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 
 
 // Required for graphing calls
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+
+
+import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 const screenWidth = Dimensions.get("window").width * .90;
 
@@ -59,14 +62,21 @@ export default function AvailableSessions({ keyVal, testData }) {
 
     }
 
-
-
     return (
         <View style={styles.sessionContainer}>
-            <TouchableOpacity
-                onPress={handlePress} >
-                <Text style={styles.sessionText}>{keyVal}</Text>
-            </TouchableOpacity>
+            <View style={styles.sessionRow}>
+                <TouchableOpacity
+                    onPress={handlePress} >
+                    <Text style={styles.sessionText}>{keyVal}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => console.log('Download Pressed')} >
+                    <Image
+                        source={require('../assets/download_icon.png')}
+                        style={styles.iconStyle} />
+                </TouchableOpacity>
+            </View>
             {showGraph &&
                 <View style={styles.graphView}>
                     <LineChart
@@ -101,6 +111,16 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         paddingVertical: 15
     },
+    sessionRow: {
+        flexDirection: 'row'
+    },
+    iconStyle: {
+        marginLeft: 10,
+        paddingHorizontal: 10,
+        width: 50,
+        height: 55
+
+    }
     // graphView: {
     //     flex: 1,
     //     alignItems: "center",

@@ -4,43 +4,16 @@ import { StyleSheet, View, Text, Button, TextInput, TouchableOpacity, FlatList, 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import AvailableSessions from './AvailableSessions.js'
-// import { __values } from 'tslib'
 
-export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs, availableSessionsData, dataDict }) {
+export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs, availableSessionsData, dataDict, displayConfirmClearModal, toggleConfirmClearModalOff, toggleConfirmClearModalOn }) {
     //----State Variables----
     // Temporary Admin Credentials
     const [tmpAdminID, setTmpAdminID] = useState('')
     const [tmpAdminPassword, setTmpAdminPassword] = useState('')
 
 
-    const [displayConfirmClearModal, setDisplayConfirmClearModal] = useState(false)
-
     const [tmpTest, setTmpTest] = useState([])
 
-    // console.log(availableLogs.length)
-    // console.log(availableLogs)
-
-    const returnTestData = async (key) => {
-        let testData = JSON.parse(await AsyncStorage.getItem(key))
-        setTmpTest(testData)
-    }
-
-
-    const renderItem = ({ item }) => {
-        return (
-            <Text key={item} style={styles.title}>{item}</Text>
-        );
-    };
-
-
-    // toggle confirm pop-up
-    const toggleDeletePopUpOn = () => {
-        setDisplayConfirmClearModal(true)
-    }
-
-    const toggleDeletePopUpOff = () => {
-        setDisplayConfirmClearModal(false)
-    }
 
     return (
         <View style={styles.pageContainer}>
@@ -55,7 +28,7 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
 
                 <TouchableOpacity
                     style={styles.searchButtonStyle}
-                    onPress={toggleDeletePopUpOn}>
+                    onPress={toggleConfirmClearModalOn}>
                     <Text style={styles.buttonText}>Clear Storage</Text>
                 </TouchableOpacity>
 
@@ -118,7 +91,7 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
 
                             <TouchableOpacity
                                 style={styles.searchButtonStyle}
-                                onPress={toggleDeletePopUpOff}>
+                                onPress={toggleConfirmClearModalOff}>
                                 <Text style={styles.buttonText}>Cancel Delete</Text>
                             </TouchableOpacity>
                         </View>
