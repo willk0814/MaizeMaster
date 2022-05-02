@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import AvailableSessions from './AvailableSessions.js'
 
-export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs, availableSessionsData, dataDict, displayConfirmClearModal, toggleConfirmClearModalOff, toggleConfirmClearModalOn }) {
+export default function AdminLoginScreen({ navigation, handleAdminChange, handleSearchForRecords, emptyStorage, availableLogs, availableSessionsData, dataDict, displayConfirmClearModal, toggleConfirmClearModalOff, toggleConfirmClearModalOn, exportExcel }) {
     //----State Variables----
     // Temporary Admin Credentials
     const [tmpAdminID, setTmpAdminID] = useState('')
@@ -41,7 +41,7 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
                 horizontal={false}
                 showsVerticalScrollIndicator={true}>
 
-                {Object.entries(dataDict).map(([key, value]) => <AvailableSessions keyVal={key} testData={value} />)}
+                {Object.entries(dataDict).map(([key, value]) => <AvailableSessions keyVal={key} testData={value} exportExcel={exportExcel} />)}
 
             </ScrollView>
 

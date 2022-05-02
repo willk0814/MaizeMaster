@@ -16,6 +16,13 @@ import AdminAccess from './components/AdminAccess';
 // Async Storage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// React FileSharing modules
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+
+// XLSX Module
+import XLSX from 'xlsx';
+
 const Stack = createNativeStackNavigator();
 
 export default function App({ navigation }) {
@@ -43,6 +50,8 @@ export default function App({ navigation }) {
 
   // SV to hold current plant ID
   const [plantID, setPlantID] = useState()
+  const [savedPlantID, setSavedPlantID] = useState(false)
+
 
 
   // SV to hold available sessions
@@ -138,8 +147,13 @@ export default function App({ navigation }) {
 
 
   // Handle Plant ID
-  const handlePlantID = () => {
-    console.log('called')
+  const handlePlantID = (value) => {
+    setPlantID(value)
+    if (value != "") {
+      setSavedPlantID(true)
+    } else {
+      setSavedPlantID(false)
+    }
   }
 
 
@@ -173,9 +187,46 @@ export default function App({ navigation }) {
     let device = deviceID
     let researcher = researcherID
 
-    tmpKey = 'Plant: ' + plant + ', Date: ' + dateVal + ', Device: ' + device + ', Researcher: ' + researcher
+    tmpKey = `${plant}$${dateVal}$${device}$${researcher}`
 
     return tmpKey
+  }
+
+  const exportExcel = async (value) => {
+    const infoArray = value.split("$")
+    const dateArray = infoArray[1].split(" ")
+
+    let data = [{
+      "Tester Name": infoArray[3],
+      "Date": dateArray[0],
+      "Plant ID - Replicate Number": infoArray[0],
+      "Planting Date": "1/1/2022",
+      "Test Type": "A",
+      "Torsional Stiffness": "1 +/- 0.1",
+      "Additional Notes": "No Notes"
+    }];
+
+    let ws = XLSX.utils.json_to_sheet(data);
+    let wb = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(wb,ws,"PlantData")
+    const wbout = XLSX.write(wb, {
+      type: 'base64',
+      bookType: "xlsx"
+    });
+    
+    const fileName = infoArray[0] + '_' + dateArray[0].replaceAll('/', '_') + '_' + dateArray[1].replaceAll(':', '_') + '.xlsx'
+    const uri = FileSystem.cacheDirectory + fileName.replace(' ', '_');
+    console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
+    await FileSystem.writeAsStringAsync(uri, wbout, {
+      encoding: FileSystem.EncodingType.Base64
+    });
+
+    await Sharing.shareAsync(uri, {
+      mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      dialogTitle: "Data for Spreadsheets",
+      UTI: 'com.microsoft.excel.xlsx'
+    });
   }
 
 
@@ -188,13 +239,14 @@ export default function App({ navigation }) {
 
   const generateTime = () => {
     // create the date value
-    let date = new Date().getDate();
-    let month = new Date().getMonth() + 1;
-    let year = new Date().getFullYear();
-    let hours = new Date().getHours();
-    let min = new Date().getMinutes();
-    let sec = new Date().getSeconds();
-    let dateVal = date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec;
+    let date = new Date();
+    let day = String(date.getDate()).padStart(2, '0');;
+    let month = String(date.getMonth() + 1).padStart(2, '0');;
+    let year = date.getFullYear();;
+    let hours = String(date.getHours()).padStart(2, '0');;
+    let min = String(date.getMinutes()).padStart(2, '0');;
+    let sec = String(date.getSeconds()).padStart(2, '0');;
+    let dateVal = `${month}/${day}/${year} ${hours}:${min}:${sec}`;
     return dateVal
   }
 
@@ -244,7 +296,8 @@ export default function App({ navigation }) {
             dataDict={dataDict}
             displayConfirmClearModal={displayConfirmClearModal}
             toggleConfirmClearModalOff={toggleConfirmClearModalOff}
-            toggleConfirmClearModalOn={toggleConfirmClearModalOn} />}
+            toggleConfirmClearModalOn={toggleConfirmClearModalOn} 
+            exportExcel={exportExcel} />}
         </Stack.Screen>
         <Stack.Screen name="AdminAcess" component={AdminAccess} />
       </Stack.Navigator>

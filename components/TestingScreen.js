@@ -77,7 +77,7 @@ export default function TestingScreen({ navigation, handleRunTest, currentTestDa
                     handlePlantID={handlePlantID}
                 />
             </View>
-
+            
             <Modal
                 visible={endSessionPressed}
                 transparent={true}

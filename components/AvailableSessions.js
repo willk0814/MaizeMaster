@@ -12,7 +12,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 const screenWidth = Dimensions.get("window").width * .90;
 
 
-export default function AvailableSessions({ keyVal, testData }) {
+export default function AvailableSessions({ keyVal, testData, exportExcel }) {
 
     const [showGraph, setShowGraph] = useState(false)
 
@@ -62,16 +62,19 @@ export default function AvailableSessions({ keyVal, testData }) {
 
     }
 
+    const kArr = keyVal.split("$")
+    let keyDescription = `Plant: ${kArr[0]}, Date: ${kArr[1]}, Device: ${kArr[2]}, Researcher: ${kArr[3]}`
+
     return (
         <View style={styles.sessionContainer}>
             <View style={styles.sessionRow}>
                 <TouchableOpacity
                     onPress={handlePress} >
-                    <Text style={styles.sessionText}>{keyVal}</Text>
+                    <Text style={styles.sessionText}>{keyDescription}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => console.log('Download Pressed')} >
+                    onPress={() => exportExcel(keyVal)} >
                     <Image
                         source={require('../assets/download_icon.png')}
                         style={styles.iconStyle} />

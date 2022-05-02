@@ -36,7 +36,7 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                         style={styles.plantIDStyle}
                         placeholder="Enter Plant ID"
                         placeholderTextColor="#315a2a"
-                        onChange={handlePlantID}
+                        onChangeText={handlePlantID}
                     />
                 </View>
                 <View style={styles.runButtons}>
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
         paddingTop: 40,
     },
     testOuput: {
+        marginTop: 50,
         paddingTop: 10,
         paddingBottom: 100,
         flex: 3,
