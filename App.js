@@ -52,8 +52,6 @@ export default function App({ navigation }) {
   const [plantID, setPlantID] = useState()
   const [savedPlantID, setSavedPlantID] = useState(false)
 
-
-
   // SV to hold available sessions
   const [availableSessions, setAvailableSessions] = useState([])
 
@@ -65,6 +63,9 @@ export default function App({ navigation }) {
 
   // Boolean SV to toggle display of confirm delete Modal
   const [displayConfirmClearModal, setDisplayConfirmClearModal] = useState(false)
+
+  // SV to hold Test Type
+  const [testType, setTestType] = useState('None Selected')
 
 
 
@@ -145,6 +146,12 @@ export default function App({ navigation }) {
     setCurrentTestData(tmpData)
   }
 
+  // Handle Store Test Type
+  const handleTestType = (value) => {
+    setTestType(value.value)
+  }
+
+
 
   // Handle Plant ID
   const handlePlantID = (value) => {
@@ -187,6 +194,9 @@ export default function App({ navigation }) {
     let device = deviceID
     let researcher = researcherID
 
+    // testLetter that is set via the drop down that needs to be included in the key
+    let testLetter = testType
+
     tmpKey = `${plant}$${dateVal}$${device}$${researcher}`
 
     return tmpKey
@@ -209,12 +219,12 @@ export default function App({ navigation }) {
     let ws = XLSX.utils.json_to_sheet(data);
     let wb = XLSX.utils.book_new();
 
-    XLSX.utils.book_append_sheet(wb,ws,"PlantData")
+    XLSX.utils.book_append_sheet(wb, ws, "PlantData")
     const wbout = XLSX.write(wb, {
       type: 'base64',
       bookType: "xlsx"
     });
-    
+
     const fileName = infoArray[0] + '_' + dateArray[0].replaceAll('/', '_') + '_' + dateArray[1].replaceAll(':', '_') + '.xlsx'
     const uri = FileSystem.cacheDirectory + fileName.replace(' ', '_');
     console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
@@ -284,7 +294,8 @@ export default function App({ navigation }) {
             currentTestData={currentTestData}
             handleAcceptResult={handleAcceptResult}
             handleRejectResult={handleRejectResult}
-            handlePlantID={handlePlantID} />}
+            handlePlantID={handlePlantID}
+            handleTestType={handleTestType} />}
         </Stack.Screen>
         <Stack.Screen name="Admin">
           {props => <AdminLoginScreen {...props}
@@ -296,7 +307,7 @@ export default function App({ navigation }) {
             dataDict={dataDict}
             displayConfirmClearModal={displayConfirmClearModal}
             toggleConfirmClearModalOff={toggleConfirmClearModalOff}
-            toggleConfirmClearModalOn={toggleConfirmClearModalOn} 
+            toggleConfirmClearModalOn={toggleConfirmClearModalOn}
             exportExcel={exportExcel} />}
         </Stack.Screen>
         <Stack.Screen name="AdminAcess" component={AdminAccess} />

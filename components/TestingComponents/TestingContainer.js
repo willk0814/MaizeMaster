@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Picker } from 'react-native'
 
 import TestOutputContainer from './TestOutputContainer'
 // import SavingPopUp from './SavingPopUp'
 
-export default function TestingContainer({ handleEndSessionPressed, handleDevicePopUp, handleRunTest, currentTestData, handleAcceptResult, handleRejectResult, handlePlantID }) {
+// import { Dropdown } from 'react-native-material-dropdown'
+// import { Picker } from 'react-native-picker/picker'
+import { Dropdown } from 'react-native-element-dropdown'
+
+export default function TestingContainer({ handleEndSessionPressed, handleDevicePopUp, handleRunTest, currentTestData, handleAcceptResult, handleRejectResult, handlePlantID, handleTestType }) {
 
     // ----State Variables----
     // Boolean state var to hold whether or not end session has been pressed
@@ -12,6 +16,26 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
 
     const [tmpPlantID, setPlantID] = useState()
 
+
+    const [selectedTestType, setSelectedTestType] = useState("None Selected");
+    const [dropdownOptions, setDropdownOptions] = useState([
+        // { label: "None Selected", value: "None Selected" },
+        { label: "A", value: "A" },
+        { label: "B", value: "B" },
+        { label: "C", value: "C" },
+        { label: "D", value: "D" },
+        { label: "E", value: "E" },
+        { label: "F", value: "F" }
+    ])
+
+    // render function for drop down buttons
+    const renderTestTypeOption = (item) => {
+        return (
+            <View>
+                <Text style={styles.testTypeText}>{item.label}</Text>
+            </View>
+        )
+    }
 
     return (
         <View style={styles.testContainer}>
@@ -31,13 +55,39 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                 </View>
 
                 <View style={styles.runControls}>
-                    <Text style={styles.sessionInfoText}>Plant ID:</Text>
-                    <TextInput
-                        style={styles.plantIDStyle}
-                        placeholder="Enter Plant ID"
-                        placeholderTextColor="#315a2a"
-                        onChangeText={handlePlantID}
-                    />
+                    <View style={styles.testInfoStyle}>
+                        <Text style={styles.sessionInfoText}>Plant ID:</Text>
+                        <TextInput
+                            style={styles.plantIDStyle}
+                            placeholder="Enter Plant ID"
+                            placeholderTextColor="#315a2a"
+                            onChangeText={handlePlantID} />
+                    </View>
+
+
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.sessionInfoText}> Test Type: </Text>
+                        <Dropdown
+                            style={styles.pickerStyle}
+                            data={dropdownOptions}
+                            placeholder="Select Test Type"
+                            placeholderStyle={
+                                { fontWeight: '400' },
+                                { fontSize: 25 }
+                            }
+                            labelStyle={
+                                { fontWeight: '400' },
+                                { fontSize: 25 }
+                            }
+                            labelField="label"
+                            valueField="value"
+                            label={selectedTestType}
+                            labelStyle={styles.labelStyle}
+                            onChange={handleTestType}
+                            renderItem={(item) => renderTestTypeOption(item)}
+                        />
+                    </View>
+
                 </View>
                 <View style={styles.runButtons}>
                     <TouchableOpacity
@@ -64,13 +114,13 @@ export default function TestingContainer({ handleEndSessionPressed, handleDevice
                 <TestOutputContainer currentTestData={currentTestData} />
             </View>
 
-            <View style={styles.centeredView}>
+            {/* <View style={styles.centeredView}>
                 <TouchableOpacity
                     style={styles.endTestingStyle}
                     onPress={handleEndSessionPressed}>
                     <Text style={styles.runTextStyle}>End Testing Session</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </View>
 
     )
@@ -129,7 +179,8 @@ const styles = StyleSheet.create({
     plantIDStyle: {
         backgroundColor: '#cddddd',
         width: 100,
-        marginLeft: 10
+        marginLeft: 10,
+        marginRight: 20
     },
     upperMargin: {
         borderBottomColor: '#cddddd',
@@ -166,5 +217,36 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         justifyContent: 'center'
+    },
+    pickerStyle: {
+        backgroundColor: 'white',
+        // borderBottomColor: 'gray',
+        // borderBottomWidth: 0.5,
+        // backgroundColor: '#2E2F2F',
+        marginLeft: 0,
+        width: 200
+    },
+    testInfoStyle: {
+        flexDirection: 'row'
+    },
+    shadow: {
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
+    },
+    labelStyle: {
+        fontSize: 100,
+        color: '#2E2F2F',
+    },
+    testTypeText: {
+        fontSize: 25,
+        fontWeight: '400',
+        color: '#2E2F2F',
+        marginLeft: 10
     }
 });

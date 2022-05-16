@@ -8,7 +8,7 @@ import SavingPopUp from './TestingComponents/SavingPopUp'
 import DeviceConnection from './TestingComponents/DeviceConnection'
 import TestingContainer from './TestingComponents/TestingContainer'
 
-export default function TestingScreen({ navigation, handleRunTest, currentTestData, handleAcceptResult, handleRejectResult, handlePlantID }) {
+export default function TestingScreen({ navigation, handleRunTest, currentTestData, handleAcceptResult, handleRejectResult, handlePlantID, handleTestType }) {
 
     // ----State Variables----
     // Boolean State Variables to control display of Modals
@@ -75,9 +75,10 @@ export default function TestingScreen({ navigation, handleRunTest, currentTestDa
                     handleAcceptResult={handleAcceptResult}
                     handleRejectResult={handleRejectResult}
                     handlePlantID={handlePlantID}
+                    handleTestType={handleTestType}
                 />
             </View>
-            
+
             <Modal
                 visible={endSessionPressed}
                 transparent={true}
