@@ -215,7 +215,27 @@ export default function App({ navigation }) {
       "Test Type": infoArray[4],
       "Torsional Stiffness": "",
       "Additional Notes": ""
+    },
+    {},
+    {
+      "Tester Name": "Angle (degrees)",
+      "Date": "Force (N)",
+      "Plant ID - Replicate Number": "Torque (N*m)"
     }];
+
+    let tmpData = JSON.parse(await AsyncStorage.getItem(value))
+
+    let tempHeight = 0.15;
+    
+    for (var i in tmpData) {
+      let torque = parseInt(tmpData[i][1]) * tempHeight;
+      let tmp = {
+        "Tester Name": tmpData[i][0],
+        "Date": tmpData[i][1],
+        "Plant ID - Replicate Number": torque.toString()
+      }
+      data.push(tmp);
+    }
 
     let ws = XLSX.utils.json_to_sheet(data);
     let wb = XLSX.utils.book_new();
