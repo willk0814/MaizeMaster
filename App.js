@@ -183,6 +183,7 @@ export default function App({ navigation }) {
     // console.log(tmp)
     storeData('sessions', tmp)
     storeData(key, JSON.stringify(currentTestData))
+    exportExcel(key)
     setCurrentTestData([[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]])
   }
 
