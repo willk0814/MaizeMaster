@@ -198,7 +198,7 @@ export default function App({ navigation }) {
     // testLetter that is set via the drop down that needs to be included in the key
     let testLetter = testType
 
-    tmpKey = `${plant}$${dateVal}$${device}$${researcher}`
+    tmpKey = `${plant}$${dateVal}$${device}$${researcher}$${testLetter}`
 
     return tmpKey
   }
@@ -211,10 +211,10 @@ export default function App({ navigation }) {
       "Tester Name": infoArray[3],
       "Date": dateArray[0],
       "Plant ID - Replicate Number": infoArray[0],
-      "Planting Date": "1/1/2022",
-      "Test Type": "A",
-      "Torsional Stiffness": "1 +/- 0.1",
-      "Additional Notes": "No Notes"
+      "Planting Date": "",
+      "Test Type": infoArray[4],
+      "Torsional Stiffness": "",
+      "Additional Notes": ""
     }];
 
     let ws = XLSX.utils.json_to_sheet(data);
