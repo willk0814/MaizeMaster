@@ -10,7 +10,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import HomeScreen from './components/HomeScreen';
 import TestingScreen from './components/TestingScreen';
 import AdminLoginScreen from './components/AdminLoginScreen';
-import AdminAccess from './components/AdminAccess';
 // import computeSourceMap from 'sucrase/dist/computeSourceMap';
 
 // Async Storage
@@ -333,7 +332,6 @@ export default function App({ navigation }) {
             toggleConfirmClearModalOn={toggleConfirmClearModalOn}
             exportExcel={exportExcel} />}
         </Stack.Screen>
-        <Stack.Screen name="AdminAcess" component={AdminAccess} />
       </Stack.Navigator>
     </NavigationContainer>
   );
