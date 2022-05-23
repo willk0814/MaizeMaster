@@ -203,6 +203,8 @@ export default function App({ navigation }) {
     return tmpKey
   }
 
+  // Exports an Excel spreadsheet anywhere the user wants it to go
+  // value is a string with format "plantID$date$device$researcher$testType"
   const exportExcel = async (value) => {
     const infoArray = value.split("$")
     const dateArray = infoArray[1].split(" ")
