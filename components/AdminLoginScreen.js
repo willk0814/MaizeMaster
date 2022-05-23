@@ -69,13 +69,6 @@ export default function AdminLoginScreen({ navigation, handleAdminChange, handle
                 onPress={() => navigation.navigate("Home")} /> */}
 
 
-            <View>
-                <TouchableOpacity
-                    style={styles.searchButtonStyle}
-                    onPress={() => console.log('Pressed')}>
-                    <Text style={styles.buttonText}> Save All </Text>
-                </TouchableOpacity>
-            </View>
             <View style={styles.modalView}>
                 <Modal
                     visible={displayConfirmClearModal}
