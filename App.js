@@ -183,6 +183,7 @@ export default function App({ navigation }) {
     // console.log(tmp)
     storeData('sessions', tmp)
     storeData(key, JSON.stringify(currentTestData))
+    exportExcel(key)
     setCurrentTestData([[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]])
   }
 
@@ -197,7 +198,7 @@ export default function App({ navigation }) {
     // testLetter that is set via the drop down that needs to be included in the key
     let testLetter = testType
 
-    tmpKey = `${plant}$${dateVal}$${device}$${researcher}`
+    tmpKey = `${plant}$${dateVal}$${device}$${researcher}$${testLetter}`
 
     return tmpKey
   }
@@ -210,11 +211,31 @@ export default function App({ navigation }) {
       "Tester Name": infoArray[3],
       "Date": dateArray[0],
       "Plant ID - Replicate Number": infoArray[0],
-      "Planting Date": "1/1/2022",
-      "Test Type": "A",
-      "Torsional Stiffness": "1 +/- 0.1",
-      "Additional Notes": "No Notes"
+      "Planting Date": "",
+      "Test Type": infoArray[4],
+      "Torsional Stiffness": "",
+      "Additional Notes": ""
+    },
+    {},
+    {
+      "Tester Name": "Angle (degrees)",
+      "Date": "Force (N)",
+      "Plant ID - Replicate Number": "Torque (N*m)"
     }];
+
+    let tmpData = JSON.parse(await AsyncStorage.getItem(value))
+
+    let tempHeight = 0.15;
+    
+    for (var i in tmpData) {
+      let torque = parseInt(tmpData[i][1]) * tempHeight;
+      let tmp = {
+        "Tester Name": tmpData[i][0],
+        "Date": tmpData[i][1],
+        "Plant ID - Replicate Number": torque.toString()
+      }
+      data.push(tmp);
+    }
 
     let ws = XLSX.utils.json_to_sheet(data);
     let wb = XLSX.utils.book_new();
